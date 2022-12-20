@@ -1,0 +1,8 @@
+@use 'components/controller-chat';
+@import 'scss/base';
+@import 'scss/debug';
+@import 'scss/tooltip';
+@import 'scss/overrides';
+
+// Necessary, since I'm using body as my container element.
+@include controller-chat.container-elem();

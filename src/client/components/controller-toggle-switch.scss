@@ -1,0 +1,62 @@
+@import '../scss/defs';
+
+:host {
+  --toggle-height: 36px;
+
+  align-items: center;
+  color: var(--black);
+  display: flex !important;
+  justify-content: space-between;
+  gap: var(--gap);
+
+  label {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: var(--toggle-height);
+  }
+
+  input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+
+    &:checked + .slider {
+      background-color: var(--black);
+    }
+
+    &:focus + .slider {
+      box-shadow: 0 0 1px var(--black);
+    }
+
+    &:checked + .slider:before {
+      transform: translateX(26px);
+    }
+  }
+
+  .slider {
+    background-color: var(--white);
+    border: 1px solid var(--black);
+    border-radius: var(--toggle-height);
+    bottom: 0;
+    cursor: pointer;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: var(--transition-ms);
+
+    &:before {
+      background-color: var(--white);
+      border: 1px solid var(--black);
+      border-radius: 50%;
+      bottom: -1px;
+      content: "";
+      height: calc(var(--toggle-height) - 2px);
+      left: -1px;
+      position: absolute;
+      transition: var(--transition-ms);
+      width: calc(var(--toggle-height) - 2px);
+    }
+  }
+}

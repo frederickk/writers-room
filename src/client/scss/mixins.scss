@@ -1,0 +1,62 @@
+// Mixins: Media Query
+@mixin mq($bp-size, $dimension: min-width, $orientation: 'none') {
+  @if $orientation == 'none' {
+    @media only screen and ($dimension: $bp-size) {
+      @content;
+    }
+  } @else {
+    @media only screen and ($dimension: $bp-size) and (orientation: $orientation) {
+      @content;
+    }
+  }
+}
+
+// Media query min-width mixin
+@mixin mq-min($bp-size, $dimension: min-width, $orientation: 'none') {
+  @include mq($bp-size, $dimension, $orientation) {
+    @content;
+  }
+}
+
+// Media query max-width/height mixin
+@mixin mq-max($bp-size, $dimension: max-width, $orientation: 'none') {
+  @include mq($bp-size, $dimension, $orientation) {
+    @content;
+  }
+}
+
+// Media query min-width and max-width mixin
+@mixin mq-min-max($bp-min-size, $bp-max-size, $orientation: 'none') {
+  @if $orientation == 'none' {
+    @media all and (min-width: $bp-min-size) and (max-width: $bp-max-size) {
+      @content;
+    }
+  } @else {
+    @media all and (min-width: $bp-min-size) and (max-width: $bp-max-size) and (orientation: $orientation) {
+      @content;
+    }
+  }
+}
+
+// Media query prefers-color-scheme
+@mixin dark-theme() {
+  @media (prefers-color-scheme: dark) {
+    @content;
+  }
+}
+
+// Transition
+@mixin transition($props...) {
+  $props-list: ();
+  @for $i from 1 through length($props) {
+    $prop: nth($props, $i);
+    $props-list: append($props-list, $prop);
+    $props-list: append($props-list, var(--transition-ms, 100ms) ease-in-out);
+    // $props-list: append($props-list, 100ms ease-in-out);
+    @if $i != length($props) {
+      $props-list: append($props-list, unquote($string: ', '));
+    }
+  }
+
+  transition: $props-list;
+}

@@ -1,0 +1,36 @@
+@import '_defs';
+
+.chat-message {
+  &__a {
+    color: var(--blue-600);
+    opacity: 1;
+    text-decoration: none;
+  }
+
+  &__h1,
+  &__h2,
+  &__h3,
+  &__h4,
+  &__h5,
+  &__h6,
+  &__p {
+    font-size: inherit !important;
+    font-weight: normal !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  &__img {
+    border-radius: 4px;
+    margin-block: var(--spacing--top-bottom);
+    width: 100%;
+  }
+
+  &__mention {
+    font-weight: 700;
+  }
+}
+
+#mode {
+  border: 0;
+}

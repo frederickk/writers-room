@@ -1,0 +1,27 @@
+{# Creates chat message container. #}
+{% macro message(
+    message = '',
+    cls = '',
+    name = 'Janet',
+    img = '/avatars/janet',
+    position = 'left') %}
+  <chat-message img="{{ img }}" name="{{ name }}" position="{{ position }}">
+    {{ message | safe }}
+  </chat-message>
+{% endmacro %}
+
+{# Creates chat message container on the right side. #}
+{% macro message_right(
+    message = '',
+    name = 'Rita',
+    img = '/avatars/rita') %}
+  {{ chat(message, name, img, position="right") }}
+{% endmacro %}
+
+{# Creates chat notification. #}
+{% macro notification(
+    message = '') %}
+  <chat-notification>
+    <div>{{ message | safe }}</div>
+  </chat-notification>
+{% endmacro %}

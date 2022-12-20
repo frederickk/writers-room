@@ -1,0 +1,80 @@
+@import '_defs';
+@import 'mixins';
+
+[data-tooltip],
+.tooltip {
+  --arrow-size: 5px;
+
+  @include transition(background-color, color, opacity, visibility);
+
+  cursor: pointer;
+  position: relative;
+
+  &::after,
+  &::before {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+    z-index: 1500;
+  }
+
+  // Arrow
+  &::after {
+    border-left: var(--arrow-size) solid transparent;
+    border-right: var(--arrow-size) solid transparent;
+    border-top: var(--arrow-size) solid var(--black);
+    bottom: calc(100% + var(--font-size--md));
+    content: " ";
+    font-size: 0;
+    left: calc(50% - var(--arrow-size));
+    line-height: 0;
+    position: absolute;
+    width: 0;
+  }
+
+  // Body
+  &::before {
+    background-color: var(--black);
+    border-radius: var(--border-radius);
+    bottom: calc(100% + var(--font-size--md));
+    color: var(--white);
+    content: attr(data-tooltip);
+    font-size: var(--font-size--md);
+    line-height: var(--line-height);
+    margin-bottom: var(--arrow-size);
+    max-height: 1em;
+    max-width: 30ch;
+    min-height: 1em;
+    overflow: hidden;
+    padding: var(--spacing--top-bottom) calc(var(--spacing--left-right) / 2);
+    position: absolute;
+    text-align: center;
+    text-overflow: ellipsis;
+    transform: translateX(-25%);
+    white-space: nowrap;
+  }
+
+  &:hover::after,
+  &:hover::before {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.tooltip {
+  &--bottom {
+    display: inline-table;
+
+    &::after {
+      border: 0;
+      border-left: var(--arrow-size) solid transparent;
+      border-right: var(--arrow-size) solid transparent;
+      border-bottom: var(--arrow-size) solid var(--black);
+      top: calc(100% + calc(var(--arrow-size) * 2));
+    }
+
+    &::before {
+      top: calc(100% + var(--font-size--md));
+    }
+  }
+}

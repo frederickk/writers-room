@@ -1,0 +1,39 @@
+@import '../scss/_defs';
+@import '../scss/mixins';
+
+:host {
+  --height: 36px;
+
+  @include transition(background-color, color);
+
+  background-color: var(--white);
+  border: 1px solid var(--grey-900);
+  border-radius: var(--height);
+  box-sizing: border-box;
+  display: flex;
+  max-height: var(--height);
+  min-height: var(--height);
+  overflow: hidden;
+  position: relative;
+  width: 50vw;
+
+  .input {
+    @include transition(background-color, color);
+
+    appearance: none;
+    background-color: transparent;
+    border: 0;
+    border-radius: var(--height);
+    box-sizing: border-box;
+    color: var(--grey-900);
+    height: 100%;
+    padding: 0 0 0 var(--spacing--top-bottom);
+    position: absolute;
+    width: 100%;
+
+    &--error {
+      background-color: var(--red-50);
+      color: var(--red-900) !important;
+    }
+  }
+}

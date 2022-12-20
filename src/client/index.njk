@@ -1,0 +1,41 @@
+{% extends 'src/client/templates/base.njk' %}
+{% import 'src/client/templates/chat-macros.njk' as chat %}
+
+{% set title = "Writers\' Room" %}
+{% set body_class = 'chat-container' %}
+
+{% block body %}
+  <header>
+    <div class="header-avatars">
+      {% for name in ['janet', 'marge', 'rita'] %}
+        <div class="tooltip--bottom" data-tooltip="{{ name | title }}">
+          <div class="header-avatars__image" style="background-image: url(/avatars/{{ name }});"></div>
+        </div>
+      {% endfor %}
+    </div>
+    <toggle-switch id="mode" class="tooltip--bottom" data-tooltip="Single or group responses">
+      <span slot="off"><span class="material-symbols-outlined">person</span></span>
+      <span slot="on"><span class="material-symbols-outlined">groups</span></span>
+    </toggle-switch>
+  </header>
+
+  <div id="debug" class="debug">
+    <button-debounce class="debug-reveal tooltip--bottom" data-tooltip="Debug panel">
+      <span class="material-symbols-outlined">bug_report</span>
+    </button-debounce>
+
+    {% for name in ['janet', 'marge', 'rita'] %}
+      <div class="debug-input">
+        <input-text id="prompt-{{ name }}" class="debug-input__input"></input-text>
+        <button-debounce id="ask-{{ name }}" class="debug-input__action">{{ name | title }}</button-debounce>
+      </div>
+    {% endfor %}
+  </div>
+
+  <footer>
+    <input-text id="prompt"></input-text>
+    <button-debounce id="ask">
+      <span class="material-symbols-outlined">send</span>
+    </button-debounce>
+  </footer>
+{% endblock %}

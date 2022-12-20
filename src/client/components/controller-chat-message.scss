@@ -1,0 +1,142 @@
+@use 'controller-chat';
+@import '../scss/_defs';
+@import '../scss/mixins';
+
+@mixin color-mod($color: 'yellow') {
+  &--#{$color} {
+    background-color: var(--#{$color}-50);
+  }
+}
+
+:host {
+  @include controller-chat.error-mod();
+  @include controller-chat.right-mod();
+  @include controller-chat.visible-mod();
+  @include controller-chat.mention-elem();
+
+  .chat {
+    @include transition(opacity, visibility);
+
+    $colors: 'yellow', 'teal', 'blue', 'purple';
+    @each $color in $colors {
+      @include color-mod($color);
+    }
+
+    // box-shadow: 0 4px 24px 0 var(--black-overlay);
+    color: var(--grey-900);
+    // display: none;
+    display: grid;
+    border-radius: calc(var(--border-radius) * 4);
+    font-family: var(--font-family--body);
+    font-size: var(--font-size--md);
+    line-height: var(--line-height);
+    gap: calc(var(--gap) * 2);
+    grid-template-areas:
+      'avatar name'
+      'avatar message';
+    grid-template-columns: 32px auto;
+    margin-bottom: calc(var(--spacing--top-bottom) * 2);
+    opacity: 0;
+    padding: var(--spacing--left-right);
+    visibility: collapse;
+    width: 60ch;
+
+    &--right {
+      grid-template-areas:
+        'name avatar'
+        'message avatar';
+      grid-template-columns: auto 32px;
+      justify-content: flex-end;
+      text-align: right;
+
+      .chat-message {
+        background-color: var(--teal-50);
+        padding: var(--spacing--top-bottom);
+        text-align: left;
+      }
+    }
+
+    &--self {
+      .chat-avatar,
+      .chat-name {
+        display: none;
+      }
+
+      .chat-message {
+        background-color: var(--grey-50);
+        text-align: left;
+      }
+    }
+
+    &-avatar {
+      background-color: white;
+      border-radius: 50%;
+      grid-area: avatar;
+      height: 32px;
+      min-height: 32px;
+      min-width: 32px;
+      overflow: hidden;
+      width: 32px;
+
+      img {
+        width: 100%;
+      }
+    }
+
+    &-bot {
+      align-items: center;
+      background-color: transparent; //var(--grey-300);
+      border-radius: 100px;
+      display: inline-flex;
+      font-weight: 700;
+      height: 1rem;
+      margin-left: 4px;
+      margin-right: 4px;
+      padding-bottom: 2px;
+      padding-left: 6px;
+      padding-right: 6px;
+      padding-top: 2px;
+    }
+
+    &-id {
+      font-weight: 500;
+    }
+
+    &-mention {
+      display: inline-block;
+      color: var(--blue-600);
+    }
+
+    &-message {
+      @include transition(background-color, color);
+
+      border-radius: var(--border-radius);
+      display: flex;
+      flex-flow: column;
+      font-size: var(--font-size--lg);
+      // gap: var(--gap);
+      grid-area: message;
+      overflow: auto;
+      padding: var(--spacing--top-bottom);
+      width: fit-content;
+
+      * {
+        border-radius: var(--border-radius);
+
+        &:not(chat-pending) {
+          margin-block-start: var(--gap);
+        }
+
+        &:first-child {
+          padding: 0;
+        }
+      }
+    }
+
+    &-name {
+      grid-area: name;
+      justify-content: space-between;
+      width: 100%;
+    }
+  }
+}

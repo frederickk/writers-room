@@ -1,0 +1,29 @@
+@use 'controller-chat';
+@import '../scss/_defs';
+@import '../scss/mixins';
+
+:host {
+  @include controller-chat.error-mod();
+  @include controller-chat.right-mod();
+  @include controller-chat.visible-mod();
+  @include controller-chat.mention-elem();
+
+  .chat-notification {
+    @include transition(opacity, visibility);
+
+    align-items: center;
+    color: var(--grey-700);
+    display: flex;
+    font-size: var(--font-size--md);
+    justify-content: space-around;
+    margin: var(--spacing--top-bottom) 0;
+    opacity: 0;
+    text-align: center;
+    visibility: collapse;
+    width: 100%;
+
+    * {
+      border-radius: var(--border-radius);
+    }
+  }
+}

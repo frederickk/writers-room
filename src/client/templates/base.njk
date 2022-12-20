@@ -1,0 +1,29 @@
+{% set title = title | default("Writers\' Room") %}
+{% set body_class = body_class | default('') %}
+{% set root_dir = root_dir | default('/static/') %}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="x-dns-prefetch-control" content="off"/>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
+    <link rel="icon" type="image/png" href="/static/favicon.png" />
+
+    <title>{{ title }}</title>
+
+    {% block head %}
+      <link rel="stylesheet" href="{{- root_dir -}}index.min.css">
+    {% endblock %}
+  </head>
+  <body class="{{ body_class }}">
+    {% block body %}{% endblock %}
+
+    {% block script %}
+      <script type="text/javascript" src="{{- root_dir -}}index.min.js"></script>
+    {% endblock %}
+  </body>
+</html>

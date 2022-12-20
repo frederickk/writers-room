@@ -1,0 +1,130 @@
+$white: #fff;
+$black: #151414;
+$grey: rgba(32, 33, 36, .43);
+$grey-dark: rgba(144, 144, 144, 1);
+$grey-reverse: rgba(255, 255, 255, .43);
+$white-transparent: rgba(255, 255, 255, .84);
+
+$red-50: hsl(345, 100%, 93%);
+$red-600: hsl(345, 100%, 78%);
+$red-900: hsl(330, 90%, 25%);
+
+$yellow-50: hsl(46, 94%, 94%);
+$yellow-100: hsl(45, 97%, 88%);
+$yellow-200: hsl(45, 96%, 78%);
+$yellow-300: hsl(45, 97%, 69%);
+$yellow-500: hsl(45, 97%, 50%);
+$yellow-900: hsl(30, 100%, 35%);
+
+$teal-50: hsl(161, 82%, 98%);
+$teal-600: hsl(161, 82%, 51%);
+$teal-900: hsl(145, 82%, 24%);
+
+$blue-50: hsl(238, 88%, 98%);
+$blue-200: hsl(238, 88%, 83%);
+$blue-600: hsl(238, 88%, 51%);
+$blue-900: hsl(223, 78%, 17%);
+
+$purple-50: hsl(276, 80%, 90%);
+$purple-600: hsl(276, 80%, 51%);
+$purple-900: hsl(261, 80%, 26%);
+
+$grey-50: #f8f9fa;
+$grey-100: #ececec;
+$grey-300: #dadce0;
+$grey-700: #5f6368;
+$grey-900: #202124;
+
+// Breakpoints
+$screen-s: '400px';
+$screen-m: '768px';
+$screen-l: '1280px';
+$screen-xl: '1680px';
+
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&?family=IBM+Plex+Sans:400,500,700&family=IBM+Plex+Mono&swap=true');
+// @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&?family=Roboto:400,500,700&family=Roboto+Mono&swap=true');
+@import 'mixins';
+
+:root,
+:host {
+  --white: #{$white};
+  --black: #{$black};
+  --black-overlay: #{rgba($black, .1)};
+
+  --red-50: #{$red-50};
+  --red-900: #{$red-900};
+
+  --yellow-50: #{$yellow-50};
+  --yellow-100: #{$yellow-100};
+  --yellow-300: #{$yellow-300};
+  --yellow-500: #{$yellow-500};
+  --yellow-900: #{$yellow-900};
+
+  --teal-50: #{$teal-50};
+  --teal-600: #{$teal-600};
+  --teal-900: #{$teal-900};
+
+  --blue-50: #{$blue-50};
+  --blue-600: #{$blue-600};
+  --blue-900: #{$blue-900};
+
+  --purple-50: #{$purple-50};
+  --purple-600: #{$purple-600};
+  --purple-900: #{$purple-900};
+
+  --grey-50: #{$grey-50};
+  --grey-100: #{$grey-100};
+  --grey-300: #{$grey-300};
+  --grey-700: #{$grey-700};
+  --grey-900: #{$grey-900};
+
+  --border-radius: 8px;
+  --font-family--body: 'IBM Plex Sans', sans-serif;
+  --font-family--code: 'IBM Plex Mono', monospace;
+  --font-family--display: 'IBM Plex Sans', sans-serif;
+  --font-size--sm: 9px;
+  --font-size--md: 14px;
+  --font-size--lg: 18px;
+  --font-size--xl: 36px;
+  --gap: 1ch;
+  --line-height: 1.2em;
+  --mix-blend-mode: multiply;
+  --spacing--left-right: 24px;
+  --spacing--top-bottom: 14px;
+  --transition-ms: 100ms;
+  --transition-easing: ease-in-out;
+
+  @include dark-theme {
+    --white: #{$black};
+    --black: #{$white};
+    --black-overlay: #{rgba($white, .4)};
+
+    --red-50: #{rgba($red-50, .2)};
+    --red-900: #{$red-50};
+
+    --yellow-50: #{rgba($yellow-50, .2)};
+    --yellow-100: #{rgba($yellow-100, .2)}; // --grey-700
+    --yellow-300: #{rgba($yellow-100, .3)};
+    --yellow-900: #{$yellow-50};
+
+    --teal-50: #{$teal-900};
+    --teal-600: #{$teal-600};
+    --teal-900: #{$teal-50};
+
+    --blue-50: #{$blue-900};
+    --blue-600: #{$blue-600};
+    --blue-900: #{$blue-50};
+
+    --purple-50: #{$purple-900};
+    --purple-600: #{$purple-600};
+    --purple-900: #{$purple-50};
+
+    --grey-50: #{$grey-900};
+    --grey-100: #{$grey-700};
+    --grey-300: #{$grey-300};
+    --grey-700: #{$grey-100};
+    --grey-900: #{$grey-50};
+
+    --mix-blend-mode: hard-light;
+  }
+}

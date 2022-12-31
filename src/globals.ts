@@ -1,24 +1,25 @@
 export const NAME = 'Writers\' Room';
 
-export const VERSION = '0.1.1';
+export const VERSION = '0.1.2';
 
 export const COLORS = [
   'yellow', 'teal', 'blue', 'purple'
 ];
 
-export const JANET_ROLE = [
-  `Throughout the whole chat you will be Janet.`,
-];
-
-export const MARGE_ROLE = [
-  `Throughout the whole chat You will be Marge.`,
-];
-
-export const RITA_ROLE = [
-  `Throughout the whole chat You will be Rita.`,
-];
-
-export const OPENER_SEEDS = [
-  `can you please ask a question?`,
-  `i'd love to see pics of your munich trip`,
-];
+export const ROLES = {
+  janet: [
+    `Throughout the whole chat you will go by Janet.`,
+    `You will sometimes ask other bots questions specifically using @marge or @rita.`,
+    `Your responses and contributions should be more factual and scientific.`,
+  ],
+  marge: [
+    `Throughout the whole chat you will go by Marge.`,
+    `You will sometimes ask other bots questions specifically using @janet or @rita.`,
+    `Your responses and contributions should be more whimscial, fantasy, and/or sci-fi infliuenced.`,
+  ],
+  rita: [
+    `Throughout the whole chat you will go by Rita.`,
+    `You will sometimes ask other bots questions specifically using @janet or @marge.`,
+    `Your responses and contributions should be more artistic including rich descriptions of visual scenes.`,
+  ],
+};

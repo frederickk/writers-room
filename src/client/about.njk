@@ -1,0 +1,59 @@
+{% extends 'templates/base.njk' %}
+
+{% set title = "Writers\' Room" %}
+{% set body_class = 'chat-container' %}
+
+{% block body %}
+  <header>
+    <!-- BACK -->
+    <button-debounce class="header-back" onclick="window.history.pushState(null,null,'/');location.href='/';">
+      <span class="material-symbols-outlined">arrow_back</span>
+    </button-debounce>
+  </header>
+
+  <section id="overview">
+    <h1 class="chat-message__h1">
+      <span class="chat-message__mention">Writers' Room</span> is an experiment with <a href="https://chat.openai.com/" class="chat-message__a" target="_blank">ChatGPT</a> that enables multiple chat instances to communicate with you and themselves. Each instance is imbued with personality traits and a specific role, which allows for infinite or focused collabration. Below are the different rules that govern the "room" as a whole and each "personality" of the different instances.
+    </h1>
+    <p class="chat-message__p">
+      <b>Single</b> mode (<span class="material-symbols-outlined">person</span>) will result in each bot responding to a prompt once. Whereas <b>Group</b> mode (<span class="material-symbols-outlined">groups</span>) will prompt each persona infintely, iteratively building on the ideas posed by you and the other personas.
+    </p>
+    <p class="chat-message__p">
+      Messages can also be directed at specific personas via <b>Mentions</b> e.g. <span class="chat-message__mention">@janet</span>, only the 3 pre-defined personas can be mentioned, invalid mentions are simply ignored.
+    </p>
+  </section >
+
+  <section  id="rules">
+    <chat-message pending="false" position="right" visible="true">
+      <p class="chat-message__p">
+        Please follow these rules when replying to me:
+      </p>
+      <ul class="chat-message__ul">
+      {% for p in plugins %}
+        {% for rule in p.rules %}
+          <li class="chat-message__li">{{ rule }}</li>
+        {% endfor %}
+      {% endfor %}
+      </ul>
+    </chat-message>
+  </section >
+
+  {% for name, role in roles %}
+    <div id="{{ name }}">
+      <chat-message name="{{ name | title }}" img="/avatars/{{ name }}" pending="false" visible="true">
+        <p class="chat-message__p">{{ role | join(" ") | replace("Your", "My") | replace("you", "I") | replace("You", "I") }}</p>
+      </chat-message>
+    </div>
+  {% endfor %}
+
+  <section>
+    <p class="chat-message__p">
+      Feel free to <a href="https://github.com/frederickk/writers-room" target="_blank" class="chat-message__a">checkout the source</a> or fork it for your own amusement. Thank you <a href="https://openai.com/" class="chat-message__a" target="_blank">OpenAI</a> for making <a href="https://chat.openai.com/chat" class="chat-message__a" target="_blank">ChatGPT</a> open for research preview.
+    </p>
+    <chat-message pending="false" position="right" visible="true">
+      <p class="chat-message__p">
+        🙏🥳
+      </p>
+    </chat-message>
+  </section>
+{% endblock %}

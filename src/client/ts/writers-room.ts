@@ -211,7 +211,6 @@ export class WritersRoom {
     const regex = /@([^\s]+)/gmi;
     const match = str.match(regex);
 
-    console.log(match);
     if (match) return match[0];
 
     return;

@@ -4,8 +4,10 @@ import './components/controller-button-toggle';
 import './components/controller-input-text';
 import './components/controller-toggle-switch';
 
-new WritersRoom([
-  'Janet',
-  'Marge',
-  'Rita',
-]);
+try {
+  new WritersRoom([
+    'Janet',
+    'Marge',
+    'Rita',
+  ]);
+} catch(err) {}

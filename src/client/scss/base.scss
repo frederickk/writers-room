@@ -8,6 +8,8 @@
 
 body,
 html {
+  background-color: var(--white);
+  color: var(--black);
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -16,6 +18,7 @@ html {
 body {
   font-family: var(--font-family--body);
   font-size: var(--font-size);
+  line-height: var(--line-height);
   text-align: left;
 }
 
@@ -39,14 +42,21 @@ footer,
 
 header,
 .header {
+  // background-color: var(--white);
   box-sizing: border-box;
   left: 0;
   justify-content: space-between;
-  padding-right: 90px;
+  // padding-right: 90px;
   top: 0;
   width: 100%;
 
-  &-avatars {
+  &-back,
+  &-debug {
+    border: 0;
+    width: 52px;
+  }
+
+  &-personas {
     @include flex;
 
     &__image {
@@ -58,4 +68,13 @@ header,
       background-size: cover;
     }
   }
+
+  &-controls {
+    @include flex;
+  }
+}
+
+section {
+  font-size: var(--font-size--lg);
+  width: 52ch;
 }

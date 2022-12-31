@@ -49,7 +49,6 @@ export class ToggleSwitch extends LitElement {
 
   /** Handles 'click' events and fires 'toggle-on' or 'toggle-off' event. */
   clickHandler_() {
-    console.log(this.switched);
     let event;
     if (this.switched) {
       event = new CustomEvent('toggle-on', {

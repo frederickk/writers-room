@@ -1,6 +1,6 @@
 {
   "name": "writers-room",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "",
   "keywords": [
     "openai",
@@ -61,6 +61,7 @@
     "@types/express": "^4.17.14",
     "@types/node": "^18.11.16",
     "@types/node-fetch": "^2.6.2",
+    "@types/nunjucks": "^3.2.1",
     "body-parser": "^1.20.1",
     "chatgpt": "^3.3.3",
     "cors": "^2.8.5",

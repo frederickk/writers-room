@@ -40,7 +40,7 @@ export class ChatMessage extends LitElement {
       <div
           class="chat chat__message ${(this.visible)?'chat--visible':''} ${(!this.img)?'chat--self':''} chat--${this.position}"
           ?color=${this.color}
-          ?pending=${this.pending}
+          ?pending="${this.pending}"
           ?visible=${this.visible}>
       ${this.img
           ? html `<div class="chat-avatar"><img src="${this.img}"></div>`
@@ -52,9 +52,22 @@ export class ChatMessage extends LitElement {
       </div>
       <div class="chat-message chat--${this.color}">
         <slot></slot>
-        <chat-pending ?visible=${this.pending}></chat-pending>
+        <chat-pending ?visible=${this.pending === 'true'}></chat-pending>
       </div>
     </div>
     `;
+  }
+
+  async firstUpdated() {
+    try {
+      const color = await fetch(`/color/${this.name.toLowerCase()}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/html',
+        },
+      })
+        .then((res) => res.text());
+      this.color = color;
+    } catch(err) {}
   }
 }

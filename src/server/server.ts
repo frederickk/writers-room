@@ -3,11 +3,13 @@ import cors from 'cors';
 import deepai from 'deepai';
 import dotenv from 'dotenv-safe';
 import express, {Application, Request, Response} from 'express';
+import nunjucks from 'nunjucks';
 import path from 'path';
 import {ChatGPTAPIBrowser} from 'chatgpt';
 import {oraPromise} from 'ora';
 
-import {COLORS, NAME, JANET_ROLE, MARGE_ROLE, RITA_ROLE, VERSION} from '../globals';
+import {COLORS, NAME, ROLES, VERSION} from '../globals';
+import {routeAbout} from './routes/about';
 import {routeAsk} from './routes/ask';
 import {routeAvatars} from './routes/avatars';
 import {routeColor} from './routes/color';
@@ -37,6 +39,8 @@ const rita = new Persona(openaiChat);
 
 // Create Express app.
 const app: Application = express()
+  .engine('njk', nunjucks.render)
+  .set('view engine', 'njk')
   .set('openai', openaiChat)
   .set('deepai', deepai)
   .set('janet', janet)
@@ -55,6 +59,7 @@ const app: Application = express()
   .use('/v', (_req: Request, res: Response) => {
     res.status(200).send(`<pre>${NAME}\r\n${VERSION}</pre>`);
   })
+  .use('/about', routeAbout)
   .use('/ask', routeAsk)
   .use('/avatars', routeAvatars)
   .use('/color', routeColor)
@@ -65,7 +70,14 @@ const app: Application = express()
     res.status(200).sendFile(path.join(__dirname, '..', '..', 'build', 'index.html'));
   });
 
-/** Initializes Express server */
+/** Configures Nunjucks rendering engine. */
+nunjucks.configure(path.join(__dirname, '..', '..', 'src', 'client'), {
+  autoescape: true,
+  express: app,
+  watch: true,
+});
+
+/** Initializes Express server. */
 const init = () => {
   return new Promise<void>((resolve) => {
     app.listen(PORT, () => {
@@ -86,13 +98,14 @@ const init = () => {
 
   await init();
 
-  await oraPromise(janet.init(JANET_ROLE, COLORS[0]), {
+  // TODO: Iterate over scalable object.
+  await oraPromise(janet.init(ROLES.janet, COLORS[0]), {
     text: '👵🏽 Janet',
   });
-  await oraPromise(rita.init(MARGE_ROLE, COLORS[1]), {
+  await oraPromise(marge.init(ROLES.marge, COLORS[1]), {
     text: '👵🏻 Marge',
   });
-  await oraPromise(rita.init(RITA_ROLE, COLORS[2]), {
+  await oraPromise(rita.init(ROLES.rita, COLORS[2]), {
     text: '👵🏿 Rita',
   });
   console.log('🤖👍');

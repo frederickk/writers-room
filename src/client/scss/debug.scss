@@ -1,58 +1,44 @@
 // TODO: Create a debug component. #overkill.
+
 .debug {
+  @include transition(opacity, visibility);
+
   align-content: center;
+  background-color: var(--white);
+  border-bottom: 1px solid var(--black);
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   font-family: var(--font-family--code);
   font-size: var(--font-size--md);
   gap: var(--gap);
-  height: 64px;
+  height: auto;
   justify-content: space-between;
-  padding: var(--spacing--top-bottom) var(--spacing--top-bottom) var(--spacing--top-bottom) 0;
+  opacity: 0;
+  padding: var(--spacing--top-bottom);
   position: fixed;
   right: 0;
-  top: 0;
-  width: calc(52px + var(--spacing--top-bottom));
+  top: calc(36px + calc(var(--spacing--top-bottom) * 2));
+  visibility: collapse;
+  width: 100%;
   z-index: 1000;
 
-  &:hover {
-    background-color: var(--white);
-    border-bottom: 1px solid var(--black);
-    // opacity: 1;
-    height: auto;
-    width: 100%;
-    z-index: 1500;
-
-    div {
-      opacity: 1;
-      visibility: visible;
-    }
+  &--open {
+    opacity: 1;
+    visibility: visible;
   }
 
-  .debug-input {
-    @include transition(opacity, visibility);
-
+  &-input {
     display: flex;
     gap: var(--gap);
     justify-content: space-between;
-    opacity: 0;
-    visibility: hidden;
 
-    &__action,
-    button-debounce {
+    &__action {
       min-width: 8ch;
     }
 
-    &__input,
-    input-text {
+    &__input {
       width: 100%;
     }
-  }
-
-  .debug-reveal {
-    align-self: end;
-    border: 0;
-    width: 52px;
   }
 }

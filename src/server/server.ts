@@ -33,9 +33,11 @@ const openaiChat = new ChatGPTAPIBrowser({
 deepai.setApiKey(process.env.DEEPAI_KEY!);
 
 // Instantiate our 3 personas.
-const janet = new Persona(openaiChat);
-const marge = new Persona(openaiChat);
-const rita = new Persona(openaiChat);
+const personas: {[key: string]: Persona} = {
+  janet: new Persona(openaiChat),
+  marge: new Persona(openaiChat),
+  rita: new Persona(openaiChat),
+}
 
 // Create Express app.
 const app: Application = express()
@@ -43,9 +45,6 @@ const app: Application = express()
   .set('view engine', 'njk')
   .set('openai', openaiChat)
   .set('deepai', deepai)
-  .set('janet', janet)
-  .set('marge', marge)
-  .set('rita', rita)
   .use(cors())
   .use(bodyParser.json({
     limit: '50mb',
@@ -70,6 +69,11 @@ const app: Application = express()
     res.status(200).sendFile(path.join(__dirname, '..', '..', 'build', 'index.html'));
   });
 
+// Personas
+for (const name in personas) {
+  app.set(name.toLocaleLowerCase(), personas[name]);
+}    
+  
 /** Configures Nunjucks rendering engine. */
 nunjucks.configure(path.join(__dirname, '..', '..', 'src', 'client'), {
   autoescape: true,
@@ -87,7 +91,7 @@ const init = () => {
   });
 };
 
-// Starts ChatGPT API intermediate server.
+// Starts server.
 (async () => {
   await oraPromise(openaiChat.initSession(), {
     text: `☎️ Connecting to ChatGPT`,
@@ -98,15 +102,11 @@ const init = () => {
 
   await init();
 
-  // TODO: Iterate over scalable object.
-  await oraPromise(janet.init(ROLES.janet, COLORS[0]), {
-    text: '👵🏽 Janet',
-  });
-  await oraPromise(marge.init(ROLES.marge, COLORS[1]), {
-    text: '👵🏻 Marge',
-  });
-  await oraPromise(rita.init(ROLES.rita, COLORS[2]), {
-    text: '👵🏿 Rita',
-  });
+  for (const [i, [name, p]] of Object.entries(Object.entries(personas))) {
+    // @ts-ignore
+    await oraPromise(p.init(ROLES[name], COLORS[i]), {
+      text: `👵🏽 ${name}`,
+    });
+  }
   console.log('🤖👍');
 })();

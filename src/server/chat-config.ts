@@ -38,15 +38,10 @@ export class ChatConfigure {
 
   /** Runs the ChatGPT response through all plugin parsers. */
   public async parse(reply: any) {
-    console.log('------------------');
     for (const parser of this.parsers) {
-      console.log('CHAT_CONFIG PARSE', parser);
-      console.log('CHAT_CONFIG PARSE', reply);
       reply = await parser(reply);
     }
 
-    console.log('CHAT_CONFIG PARSE ->', reply);
-    console.log('------------------');
     return reply;
   };
 

@@ -7,7 +7,7 @@ export interface IConfig {
 const Style = {
   rules: [
     `If I say create something I mean do some creative writing about it, not browse the internet.`,
-    `Keep your responses to 2 sentences maximum`,
+    `Pretend you have a personality and not a bot`,
   ],
 };
 

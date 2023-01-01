@@ -138,8 +138,9 @@ export class WritersRoom {
     // Discard ID attribute since we won't need to reference this element.
     elem?.removeAttribute('id');
     // Temporarily disable user input, to prevent duplicative requests.
-    this.elemsInput_.user.setAttribute('disabled', 'true');
-    this.elemsButton_.user.setAttribute('disabled', 'true');
+    // TODO: removing attribute isn't working.
+    // this.elemsInput_.user.setAttribute('disabled', 'true');
+    // this.elemsButton_.user.setAttribute('disabled', 'true');
 
     // Pass element and text to message instantiator.
     return await this.chat_.message({
@@ -171,8 +172,9 @@ export class WritersRoom {
       // Clear query from user input.
       this.elemsInput_.user.value = '';
       // Remove disabled states from user input.
-      this.elemsInput_.user.removeAttribute('disabled');
-      this.elemsButton_.user.removeAttribute('disabled');
+      // TODO: removing attribute isn't working.
+      // this.elemsInput_.user.removeAttribute('disabled');
+      // this.elemsButton_.user.removeAttribute('disabled');
 
       return msg
     } catch (err) {
@@ -185,12 +187,14 @@ export class WritersRoom {
 
   /** Fetches response from next speaker. */
   private async fetchResponseNextSpeaker_(name: string, text: string) {
-    const msg = await this.fetchMessage_(`persona-${name}`, name, text);
+    const name_ = this.getMention_(text) || name;
+    const msg = await this.fetchMessage_(`persona-${name_}`, name_, text);
 
     if (msg) {
-      this.createMessage_(`persona-${name}`, msg);
+      const mention = this.getMention_(msg);
+      this.createMessage_(`persona-${name_}`, msg);
       this.setNextSpeaker_();
-      this.getMention_(msg);
+      if (mention) this.nextSpeaker = mention;
 
       if (this.responseMode_ === MODE.group) {
         delay(DELAY_MS).then(() => {
@@ -198,7 +202,7 @@ export class WritersRoom {
         });
       }
     } else {
-      this.removeMessage_(`persona-${name}`);
+      this.removeMessage_(`persona-${name_}`);
       await this.chat_.notify({
         text: NOTIFICATIONS.error,
       });
@@ -207,13 +211,15 @@ export class WritersRoom {
   }
 
   /** Retrieves mentions (@foo) from a string of text.  */
-  private getMention_(str: string) {
+  private getMention_(str: string): string | undefined {
     const regex = /@([^\s]+)/gmi;
     const match = str.match(regex);
 
-    if (match) return match[0];
+    if (match) return match[0]
+      .replace('@', '')
+      .toLowerCase();
 
-    return;
+    return ;
   }
 
   /** Returns mode state; 'single' or 'group'. */

@@ -55,7 +55,7 @@ export class InputText extends LitElement {
 
   /** Handles 'input' event and fires 'empty' event if value is null. */
   inputHandler_() {
-    this.value = this.input_.value.trim();
+    this.value = this.input_.value;
 
     if (this.isEmpty_()) {
       this.clickEnter_ = false;

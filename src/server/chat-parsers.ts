@@ -52,8 +52,6 @@ export const URLtoMarkdownImage = async (reply: IChatResponseParse) => {
 
 /** Converts image description to Lexica URL and Markdown image tag. */
 export const descriptionToImage = async (reply: IChatResponseParse) => {
-  console.log('///////////////////////////');
-  console.log('LEXICA PARSE');
   // Match anything between {{ }}
   const regex = /\{\{([^\]]+?)\}\}/gm;
   const lexicaUrl = await findRegexMatches_(regex, reply.response, async (str) => {

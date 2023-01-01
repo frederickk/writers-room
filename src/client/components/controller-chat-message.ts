@@ -43,7 +43,7 @@ export class ChatMessage extends LitElement {
           ?pending="${this.pending}"
           ?visible=${this.visible}>
       ${this.img
-          ? html `<div class="chat-avatar"><img src="${this.img}"></div>`
+          ? html `<div class="chat-avatar"><div class="chat-avatar__img" style="background-image: url(${this.img});"></div></div>`
           : html``}
       <div class="chat-name">
         ${this.name

@@ -54,6 +54,11 @@ export const URLtoMarkdownImage = async (reply: IChatResponseParse) => {
 export const descriptionToImage = async (reply: IChatResponseParse) => {
   // Match anything between {{ }}
   const regex = /\{\{([^\]]+?)\}\}/gm;
+
+  console.log('------------------');
+  console.log('LEXICA');
+  console.log(reply.response);
+
   const lexicaUrl = await findRegexMatches_(regex, reply.response, async (str) => {
     if (str.includes('http')) return '';
 
@@ -67,10 +72,15 @@ export const descriptionToImage = async (reply: IChatResponseParse) => {
       return `![${str}](https://image.lexica.art/md/${json?.images[0]?.id})`;
     }
 
+    console.log('json', json);
+
     return '';
   });
   reply.response = lexicaUrl.str;
   reply.images = [...reply.images, ...lexicaUrl.arr].filter(n => n);
+
+  console.log('reply', reply);
+  console.log('------------------');
 
   return reply;
 };

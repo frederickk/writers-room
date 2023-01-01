@@ -1,6 +1,6 @@
 export const NAME = 'Writers\' Room';
 
-export const VERSION = '0.1.2';
+export const VERSION = '0.1.3';
 
 export const COLORS = [
   'yellow', 'teal', 'blue', 'purple'

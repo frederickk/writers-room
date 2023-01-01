@@ -146,7 +146,7 @@ export class WritersRoom {
     return await this.chat_.message({
       elem,
       text,
-      position: elem.getAttribute('position') || 'left',
+      position: elem?.getAttribute('position') || 'left',
     });
   }
 

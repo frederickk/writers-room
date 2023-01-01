@@ -1,6 +1,6 @@
 # Writers' Room
 
-v0.1.2
+v0.1.3
 
 ### Workshop ideas with a room of bots.
 
@@ -33,7 +33,7 @@ Messages can also be directed at specific personas via **Mentions** (e.g. @janet
 3. Create a `.env` file, add your OpenAI login credentials `OPENAI_EMAIL="..."` and `OPENAI_PASSWORD="..."`
 4. [Build](#build) `npm run build`
 5. Serve `npm run serve`.
-6. Open [localhost:8080](https://localhost:3000/)
+6. Open [localhost:3000](https://localhost:3000/)
 7. Et voilà!
 
 ---
@@ -44,7 +44,7 @@ Messages can also be directed at specific personas via **Mentions** (e.g. @janet
 | `npm run build` | Runs Webpack build process once |
 | `npm run clean` | Cleans `./build` and any cached files |
 | `npm run dev`   | Runs Webpack build process and watches for changes; rebuilding as necessary |
-| `npm run serve` | [`http://localhost:3000`](http://localhost:3000). |
+| `npm run serve` | [`http://localhost:3000`](http://localhost:3000) |
 
 
 

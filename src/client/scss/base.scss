@@ -60,12 +60,12 @@ header,
     @include flex;
 
     &__image {
-      border-radius: 36px;
-      height: 36px;
-      width: 36px;
       background-position: center;
       background-repeat: no-repeat;
       background-size: cover;
+      border-radius: 32px;
+      height: 32px;
+      width: 32px;
     }
   }
 

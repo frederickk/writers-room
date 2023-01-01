@@ -37,6 +37,11 @@ renderer.link = (href: any, title: any, text: any) => {
   return `<a href="${href}" class="${CLASSNAME}a" title="${title}">${text}</a>`;
 };
 
+// Override <li> tags.
+renderer.listitem = (text: string, _task: boolean, _checked: boolean) => {
+  return `<li class="${CLASSNAME}li">${text}</li>`;
+};
+
 // Override <p> tags.
 renderer.strong = (text: any) => {
   return `<strong class="${CLASSNAME}strong">${text}</strong>`;

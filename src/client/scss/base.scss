@@ -1,4 +1,4 @@
-@import 'mixins';
+@use 'mixins';
 
 @mixin flex {
   align-items: center;
@@ -19,7 +19,7 @@ body {
   font-family: var(--font-family--body);
   font-size: var(--font-size);
   line-height: var(--line-height);
-  text-align: left;
+  text-align: start;
 }
 
 footer,
@@ -77,4 +77,11 @@ header,
 section {
   font-size: var(--font-size--lg);
   width: 52ch;
+}
+
+.caption {
+  font-size: var(--font-size--md);
+  margin-block: calc(var(--spacing--top-bottom) * 2);
+  opacity: .3;
+  text-align: center;
 }

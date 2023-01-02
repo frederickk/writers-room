@@ -1,8 +1,8 @@
+@use '../scss/mixins';
 @import '../scss/_defs';
-@import '../scss/mixins';
 
 :host {
-  @include transition(background-color, border);
+  @include mixins.transition(background-color, border);
 
   background-color: var(--white);
   border: 1px solid var(--grey-900);
@@ -18,13 +18,15 @@
   }
 
   .button {
-    @include transition(background-color, color);
+    @include mixins.transition(background-color, color);
 
+    appearance: none;
     background-color: transparent;
     border: 0;
     border-radius: 36px;
     color: var(--grey-900);
     cursor: pointer;
+    line-height: 0;
     max-height: 36px;
     min-height: 36px;
     padding-inline: var(--spacing--top-bottom);
@@ -36,7 +38,7 @@
     }
 
     &:disabled {
-      background-color: var(--grey-300);
+      background-color: var(--grey-200);
     }
 
     &:hover {

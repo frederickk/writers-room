@@ -2,7 +2,7 @@
  * @fileoverview Controller class for persona messages.
  */
 
-// TODO: Support different text generation API's; DeepAI, Writesonic, et al.
+// TODO: Support different text generation API's; DeepAI, WriteSonic, et al.
 
 import {ChatGPTAPI, ChatGPTAPIBrowser} from 'chatgpt';
 import {oraPromise} from 'ora';
@@ -22,7 +22,7 @@ export class Persona {
   private config_: ChatConfigure;
 
   /** Color of messages from Persona. */
-  public color: string;
+  public color: string = COLORS[0];
 
   /** ChatGPT API conversation ID; to maintain continuity between responses. */
   public conversationId?: string;
@@ -30,19 +30,19 @@ export class Persona {
   /** ChatGPT API message ID of parent. */
   public messageId?: string;
 
-  constructor(api: ChatGPTAPI | ChatGPTAPIBrowser) {
+  constructor(api: ChatGPTAPI | ChatGPTAPIBrowser, color?: string) {
     this.api_ = api;
     this.config_ = new ChatConfigure(plugins, this.api_);
-    this.color = COLORS[0];
+    this.setColor_(color);
   }
 
   /** Initializes Persona instance. */
   public async init(notes: string[], color?: string) {
     this.config_.rules = this.config_.rules.concat(notes);
-    if (color) this.color = color;
+    this.setColor_(color);
 
     await oraPromise(this.config_.train(), {
-      text: `🎭 Learning (${this.config_.rules.length} rules, ${this.config_.parsers.length} parsers)`,
+      text: `🎭 Learned (${this.config_.rules.length} rules, ${this.config_.parsers.length} parsers)`,
     });
   }
 
@@ -61,5 +61,10 @@ export class Persona {
     const parsedReply = this.config_.parse(reply);
 
     return parsedReply;
+  }
+
+  /** Sets color to value given or stays the same. */
+  private setColor_(value?: string) {
+    if (value) this.color = value;
   }
 }

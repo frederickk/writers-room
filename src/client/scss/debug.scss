@@ -1,7 +1,8 @@
-// TODO: Create a debug component. #overkill.
+@use '../scss/mixins';
 
+// TODO: Create a debug component. #overkill.
 .debug {
-  @include transition(opacity, visibility);
+  @include mixins.transition(opacity, visibility);
 
   align-content: center;
   background-color: var(--white);

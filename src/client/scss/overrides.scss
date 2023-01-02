@@ -1,3 +1,4 @@
+@use 'mixins';
 @import '_defs';
 
 chat-message {
@@ -33,11 +34,7 @@ chat-message {
   }
 
   &__i {
-    background-color: var(--grey-100);
-    border-radius: 1em;
-    font-weight: normal;
-    padding: 0.05em 1ch;
-    white-space: nowrap;
+    @include mixins.pill(var(--grey-200));
   }
 
   &__img {

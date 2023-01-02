@@ -1,39 +1,54 @@
-$white: #fff;
-$black: #151414;
-$grey: rgba(32, 33, 36, .43);
-$grey-dark: rgba(144, 144, 144, 1);
-$grey-reverse: rgba(255, 255, 255, .43);
-$white-transparent: rgba(255, 255, 255, .84);
+@use 'mixins';
+@use 'sass:map';
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&?family=IBM+Plex+Sans:400,500,700&family=IBM+Plex+Mono&swap=true');
 
-$red-50: hsl(345, 100%, 93%);
-$red-600: hsl(345, 100%, 78%);
-$red-900: hsl(330, 90%, 25%);
+$black: hsl(0, 2%, 8%);
+$black-transparent: hsla(0, 2%, 8%, 0.6);
+$grey-50: hsl(0, 2%, 98%);
+$grey-200: hsl(0, 2%, 87%);
+$grey-600: hsl(0, 2%, 39%);
+$grey-900: hsl(0, 2%, 13%);
+$white: hsl(0, 0%, 100%);
+$white-transparent: hsla(0, 0%, 100%, 0.6);
 
-$yellow-50: hsl(46, 94%, 94%);
-$yellow-100: hsl(45, 97%, 88%);
-$yellow-200: hsl(45, 96%, 78%);
-$yellow-300: hsl(45, 97%, 69%);
-$yellow-500: hsl(45, 97%, 50%);
-$yellow-900: hsl(30, 100%, 35%);
+$color_keys: (
+  '50': 90%,
+  '200': 80%,
+  '600': 50%,
+  '900': 10%,
+);
 
-$teal-50: hsl(161, 82%, 98%);
-$teal-600: hsl(161, 82%, 51%);
-$teal-900: hsl(145, 82%, 24%);
+$red: hsl(349, 87%, 62%);
+$red-50: hsl(349, 87%, map.get($color_keys, '50'));
+$red-200: hsl(349, 87%, map.get($color_keys, '200'));
+$red-600: hsl(349, 87%, map.get($color_keys, '600'));
+$red-900: hsl(349, 87%, map.get($color_keys, '900'));
 
-$blue-50: hsl(238, 88%, 98%);
-$blue-200: hsl(238, 88%, 83%);
-$blue-600: hsl(238, 88%, 51%);
-$blue-900: hsl(223, 78%, 17%);
+// $yellow: hsl(50, 89%, 53%);
+$yellow: hsl(45, 89%, 53%);
+$yellow-50: hsl(50, 89%, map.get($color_keys, '50'));
+$yellow-200: hsl(50, 89%, map.get($color_keys, '200'));
+$yellow-600: hsl(45, 89%, map.get($color_keys, '600'));
+$yellow-900: hsl(45, 89%, map.get($color_keys, '900'));
 
-$purple-50: hsl(276, 80%, 90%);
-$purple-600: hsl(276, 80%, 51%);
-$purple-900: hsl(261, 80%, 26%);
+$green: hsl(62, 96%, 33%);
+$green-50: hsl(62, 96%, map.get($color_keys, '50'));
+$green-200: hsl(62, 96%, map.get($color_keys, '200'));
+$green-600: hsl(62, 96%, map.get($color_keys, '600'));
+$green-900: hsl(62, 96%, map.get($color_keys, '900'));
 
-$grey-50: #f8f9fa;
-$grey-100: #ececec;
-$grey-300: #dadce0;
-$grey-700: #5f6368;
-$grey-900: #202124;
+$blue: hsl(259, 94%, 28%);
+// $blue: hsl(253, 97%, 23%);
+$blue-50: hsl(259, 94%, map.get($color_keys, '50'));
+$blue-200: hsl(259, 94%, map.get($color_keys, '200'));
+$blue-600: hsl(253, 97%, map.get($color_keys, '600'));
+$blue-900: hsl(253, 97%, map.get($color_keys, '900'));
+
+$pink: hsl(321, 75%, 43%);
+$pink-50: hsl(321, 75%, map.get($color_keys, '50'));
+$pink-200: hsl(321, 75%, map.get($color_keys, '200'));
+$pink-600: hsl(321, 75%, map.get($color_keys, '600'));
+$pink-900: hsl(321, 75%, map.get($color_keys, '900'));
 
 // Breakpoints
 $screen-s: '400px';
@@ -41,42 +56,41 @@ $screen-m: '768px';
 $screen-l: '1280px';
 $screen-xl: '1680px';
 
-@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&?family=IBM+Plex+Sans:400,500,700&family=IBM+Plex+Mono&swap=true');
-// @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&?family=Roboto:400,500,700&family=Roboto+Mono&swap=true');
-@import 'mixins';
-
 :root,
 :host {
-  --white: #{$white};
   --black: #{$black};
-  --black-overlay: #{rgba($black, .1)};
+  --black-overlay: #{$black-transparent};
+  --grey-50: #{$grey-50};
+  --grey-200: #{$grey-200};
+  --grey-600: #{$grey-600};
+  --grey-900: #{$grey-900};
+  --white: #{$white};
+  --white-overlay: #{$white-transparent};
 
   --red-50: #{$red-50};
+  --red-200: #{$red-200};
+  --red-600: #{$red-600};
   --red-900: #{$red-900};
 
   --yellow-50: #{$yellow-50};
-  --yellow-100: #{$yellow-100};
-  --yellow-300: #{$yellow-300};
-  --yellow-500: #{$yellow-500};
+  --yellow-200: #{$yellow-200};
+  --yellow-600: #{$yellow-600};
   --yellow-900: #{$yellow-900};
 
-  --teal-50: #{$teal-50};
-  --teal-600: #{$teal-600};
-  --teal-900: #{$teal-900};
+  --green-50: #{$green-50};
+  --green-200: #{$green-200};
+  --green-600: #{$green-600};
+  --green-900: #{$green-900};
 
   --blue-50: #{$blue-50};
+  --blue-200: #{$blue-200};
   --blue-600: #{$blue-600};
   --blue-900: #{$blue-900};
 
-  --purple-50: #{$purple-50};
-  --purple-600: #{$purple-600};
-  --purple-900: #{$purple-900};
-
-  --grey-50: #{$grey-50};
-  --grey-100: #{$grey-100};
-  --grey-300: #{$grey-300};
-  --grey-700: #{$grey-700};
-  --grey-900: #{$grey-900};
+  --pink-50: #{$pink-50};
+  --pink-200: #{$pink-200};
+  --pink-600: #{$pink-600};
+  --pink-900: #{$pink-900};
 
   --border-radius: 8px;
   --font-family--body: 'IBM Plex Sans', sans-serif;
@@ -94,36 +108,40 @@ $screen-xl: '1680px';
   --transition-ms: 100ms;
   --transition-easing: ease-in-out;
 
-  @include dark-theme {
-    --white: #{$black};
+  @include mixins.dark-theme {
     --black: #{$white};
-    --black-overlay: #{rgba($white, .4)};
+    --black-overlay: #{$white-transparent};
+    --grey-50: #{$grey-900};
+    --grey-200: #{$grey-600};
+    --grey-600: #{$grey-200};
+    --grey-900: #{$grey-50};
+    --white: #{$black};
+    --white-overlay: #{$black-transparent};
 
-    --red-50: #{rgba($red-50, .2)};
+    --red-50: #{$red-900};
+    --red-200: #{$red-600};
+    --red-600: #{$red-200};
     --red-900: #{$red-50};
 
-    --yellow-50: #{rgba($yellow-50, .2)};
-    --yellow-100: #{rgba($yellow-100, .2)}; // --grey-700
-    --yellow-300: #{rgba($yellow-100, .3)};
+    --yellow-50: #{$yellow-900};
+    --yellow-200: #{$yellow-600};
+    --yellow-600: #{$yellow-200};
     --yellow-900: #{$yellow-50};
 
-    --teal-50: #{$teal-900};
-    --teal-600: #{$teal-600};
-    --teal-900: #{$teal-50};
+    --green-50: #{$green-900};
+    --green-200: #{$green-600};
+    --green-600: #{$green-200};
+    --green-900: #{$green-50};
 
     --blue-50: #{$blue-900};
-    --blue-600: #{$blue-600};
+    --blue-200: #{$blue-600};
+    --blue-600: #{$blue-200};
     --blue-900: #{$blue-50};
 
-    --purple-50: #{$purple-900};
-    --purple-600: #{$purple-600};
-    --purple-900: #{$purple-50};
-
-    --grey-50: #{$grey-900};
-    --grey-100: #{$grey-700};
-    --grey-300: #{$grey-300};
-    --grey-700: #{$grey-100};
-    --grey-900: #{$grey-50};
+    --pink-50: #{$pink-900};
+    --pink-200: #{$pink-600};
+    --pink-600: #{$pink-200};
+    --pink-900: #{$pink-50};
 
     --mix-blend-mode: hard-light;
   }

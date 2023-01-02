@@ -1,5 +1,4 @@
 const CopyPlugin = require('copy-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 const {ESBuildMinifyPlugin} = require('esbuild-loader');
@@ -11,24 +10,7 @@ const mode = (process.env.NODE_ENV === 'production')
 // Array of indices to compile 'index' is accounted for already.
 const pageIndices = [];
 
-/** Creates plugin config to generate HTML from Nunjucks templates. */
-const generateNjk = (arr) => {
-  const out = [];
-
-  arr.forEach((index) => {
-    out.push(new HtmlWebpackPlugin({
-      template: path.join(__dirname, `src/client/${index}.njk`),
-      filename: `${index}.html`,
-      chunks: [`${index}`],
-      // inlineSource: '.(js|css)$',
-      // inject: 'body',
-    }));
-  });
-
-  return out;
-};
-
-/** Creates entrypoint configs to transcopile TS and SCSS. */
+/** Creates entrypoint configs to transpile TS and SCSS. */
 const generateTs = (arr) => {
   const out = {};
 
@@ -58,7 +40,7 @@ module.exports = {
     },
     liveReload: true,
     static: {
-      directory: path.join(__dirname, 'build'),
+      directory: path.join(__dirname, 'static'),
       watch: true,
     },
     port: 8080,
@@ -89,13 +71,6 @@ module.exports = {
       type: 'asset/inline',
     },
     {
-      test: /\.njk$/,
-      use: [{
-        loader: 'simple-nunjucks-loader',
-        options: {},
-      }],
-    },
-    {
       test: /\.css|\.s(c|a)ss$/,
       use: [
         {
@@ -124,20 +99,12 @@ module.exports = {
     new CopyPlugin({
       patterns: [{
         from: './src/client/images',
-        to: '../build/static',
+        to: '../static',
       }],
     }),
-    new HtmlWebpackPlugin({
-      template: path.join(__dirname, `src/client/index.njk`),
-      filename: `index.html`,
-      chunks: [`index`],
-      // inlineSource: '.(js|css)$',
-      // inject: 'body',
-    }),
-    ...generateNjk(pageIndices),
     new MiniCssExtractPlugin({
       filename: () => {
-        return '../build/static/[name].min.css';
+        return '../static/[name].min.css';
       },
     }),
     {
@@ -162,10 +129,10 @@ module.exports = {
     })],
   },
   output: {
-    path: path.join(__dirname, 'build'),
-    publicPath: path.join(__dirname, 'build'),
-    filename: 'static/[name].min.js',
-    assetModuleFilename: 'static/[name][ext]',
+    path: path.join(__dirname, 'static'),
+    publicPath: path.join(__dirname, 'static'),
+    filename: '[name].min.js',
+    assetModuleFilename: '[name][ext]',
   },
   target: 'web',
 };

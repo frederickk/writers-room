@@ -1,6 +1,6 @@
 @use 'controller-chat';
+@use '../scss/mixins';
 @import '../scss/_defs';
-@import '../scss/mixins';
 
 @mixin color-mod($color: 'yellow') {
   &--#{$color} {
@@ -15,9 +15,9 @@
   @include controller-chat.mention-elem();
 
   .chat {
-    @include transition(opacity, visibility);
+    @include mixins.transition(opacity, visibility);
 
-    $colors: 'yellow', 'teal', 'blue', 'purple';
+    $colors: 'yellow', 'green', 'blue', 'pink';
     @each $color in $colors {
       @include color-mod($color);
     }
@@ -47,12 +47,12 @@
         'message avatar';
       grid-template-columns: auto 32px;
       justify-content: flex-end;
-      text-align: right;
+      text-align: end;
 
       .chat-message {
-        background-color: var(--teal-50);
+        background-color: var(--green-50);
         padding: var(--spacing--top-bottom);
-        text-align: left;
+        text-align: start;
       }
     }
 
@@ -64,7 +64,7 @@
 
       .chat-message {
         background-color: var(--grey-50);
-        text-align: left;
+        text-align: start;
       }
     }
 
@@ -90,7 +90,7 @@
 
     &-bot {
       align-items: center;
-      background-color: transparent; //var(--grey-300);
+      background-color: transparent; //var(--grey-200);
       border-radius: 100px;
       display: inline-flex;
       font-weight: 700;
@@ -113,7 +113,7 @@
     }
 
     &-message {
-      @include transition(background-color, color);
+      @include mixins.transition(background-color, color);
 
       border-radius: var(--border-radius);
       display: flex;

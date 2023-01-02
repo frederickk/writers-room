@@ -4,17 +4,19 @@
 
 import {chatAPIResponseHandler, colorResponseHandler} from './api-handlers';
 import {ChatController, IChatAttributes} from './chat-controller';
-import {delay, toTitleCase} from './utils';
+import {delay, toTitleCase} from '../../utils';
+import {SummaryBlock} from '../components/controller-summary-block';
 
 /** Delay time between triggering persona responses. */
-const DELAY_MS = 1 * 1000;
+const DELAY_MS = 1 * 500;
 
 /** Notification message strings. */
 const NOTIFICATIONS: {[key:string]: string;} = {
   error: `Something went wrong with response, try again?`,
   group: `Group conversation mode`,
+  invalid: `is not in this room`,
   join: `joined the room`,
-  load: `You created this writers' room today`,
+  load: `You created this writers' room today with <span class="chat-message__mention">@janet</span>, <span class="chat-message__mention">@marge</span>, and <span class="chat-message__mention">@rita</span>`,
   single: `Single conversation mode`,
 };
 
@@ -34,11 +36,17 @@ export class WritersRoom {
   /** Input elements of prompts. */
   private elemsInput_: { [key: string]: HTMLInputElement; };
 
+  /** Summary container element. */
+  private elemSummary_: SummaryBlock = document.querySelector('summary-block')!;
+
   /** Mode for responses. */
   private responseMode_ = MODE.group;
 
   /** Array of persona names. */
   private personaNames_: string[];
+
+  /** Object containing all persona responses. */
+  private personaResponses_: {[key: string]: string[]} = {}
 
   /** User prompt for pre-pending AI messages. */
   private userPrompt_: string = '';
@@ -67,6 +75,7 @@ export class WritersRoom {
       const name_ = name.toLowerCase();
       this.elemsButton_[name_] = document.querySelector(`#ask-${name_}`)!;
       this.elemsInput_[name_] = document.querySelector(`#prompt-${name_}`)!;
+      this.personaResponses_[name_] = [];
     }
 
     this.initListeners_();
@@ -79,7 +88,7 @@ export class WritersRoom {
       text: NOTIFICATIONS.load,
     });
     await this.setModeState_();
-    this.modeHandler_()
+    this.modeHandler_();
   }
 
   /** Adds event listeners to elements. */
@@ -90,21 +99,8 @@ export class WritersRoom {
     this.elemsInput_.mode
       .addEventListener('toggle-on', this.modeHandler_.bind(this));
 
-    // For debugging to send a prompt directly to specific persona.
-    for (const name of this.personaNames_) {
-      const name_ = name.toLowerCase();
-      this.elemsButton_[name_]?.addEventListener('click', async () => {
-        await this.initMessage_(`persona-${name_}`);
-        await this.fetchMessage_(`persona-${name_}`,
-          this.nextSpeaker.toLowerCase(),
-          this.elemsInput_[name]?.value
-        );
-      });
-    }
-
-    this.elemsInput_.user.addEventListener('enter', () => {
-      this.initMessage_('user');
-    });
+    this.elemsInput_.user
+      .addEventListener('enter', () => this.initMessage_('user'));
 
     this.elemsButton_.user
       .addEventListener('click', this.submitHandler_.bind(this));
@@ -112,9 +108,8 @@ export class WritersRoom {
     this.elemsInput_.user
       .addEventListener('submit', this.submitHandler_.bind(this));
 
-    this.elemsInput_.user.addEventListener('empty', () => {
-      this.removeMessage_('user');
-    });
+    this.elemsInput_.user
+      .addEventListener('empty', () => this.removeMessage_('user'));
   }
 
   /** Adds error state to element for 1 second. */
@@ -124,15 +119,17 @@ export class WritersRoom {
       window.setTimeout(() => {
         elem.removeAttribute('error');
         resolve();
-      }, 1000);
+      }, DELAY_MS);
     });
   }
 
-  /** Create chat container with message. */
-  private async createMessage_(id: string, text: string) {
+  /** Creates chat container with message. */
+  private async createMessage_(id: string, text?: string)
+      : Promise<HTMLElement | undefined> {
     if (!text) {
       await this.addError_(this.elemsInput_.user);
-      this.removeMessage_(id);
+      await this.errorHandler_(id);
+
       return;
     }
 
@@ -142,8 +139,8 @@ export class WritersRoom {
     elem?.removeAttribute('id');
     // Temporarily disable user input, to prevent duplicative requests.
     // TODO: removing attribute isn't working.
-    // this.elemsInput_.user.setAttribute('disabled', 'true');
-    // this.elemsButton_.user.setAttribute('disabled', 'true');
+    // this.elemsInput_.user.toggleAttribute('disabled', false);
+    // this.elemsButton_.user.toggleAttribute('disabled', false);
 
     // Pass element and text to message instantiator.
     return await this.chat_.message({
@@ -153,9 +150,24 @@ export class WritersRoom {
     });
   }
 
+  /** Handles message errors and posts notification. */
+  private async errorHandler_(id: string, text = NOTIFICATIONS.error) {
+    this.removeMessage_(id);
+    if (text) await this.chat_.notify({
+      text,
+    });
+    this.setModeState_();
+  }
+
   /** Handles asking last speaker a message from the user. */
-  private async fetchMessage_(id?: string, name?: string, text?: string):
+  private async fetchMessage_(id: string, name?: string, text?: string):
       Promise<string | null> {
+
+    // Prepend original user input to prompt.
+    if (!text?.includes(this.userPrompt_)) {
+      text = `${this.userPrompt_}\n${text}`;
+    }
+
     const text_ = text || this.elemsInput_.user.value;
     this.userPrompt_ = text_;
     const name_ = name?.toLowerCase() || this.nextSpeaker.toLowerCase();
@@ -171,19 +183,17 @@ export class WritersRoom {
 
     try {
       const msg = await chatAPIResponseHandler(`ask/${name_}`, text_);
-      // this.isGroupMode_ = false;
       this.setModeState_();
       // Clear query from user input.
       this.elemsInput_.user.value = '';
       // Remove disabled states from user input.
       // TODO: removing attribute isn't working.
-      // this.elemsInput_.user.removeAttribute('disabled');
-      // this.elemsButton_.user.removeAttribute('disabled');
+      // this.elemsInput_.user.toggleAttribute('disabled', true);
+      // this.elemsButton_.user.toggleAttribute('disabled', true);
 
       return msg
     } catch (err) {
-      this.removeMessage_(id);
-      this.setModeState_();
+      this.errorHandler_(id);
 
       return null;
     }
@@ -192,17 +202,10 @@ export class WritersRoom {
   /** Fetches response from next speaker. */
   private async fetchResponseNextSpeaker_(name: string, text: string) {
     const name_ = this.getMention_(text) || name;
-    // Prepend original user input to prompt.
-    if (!text.includes(this.userPrompt_)) {
-      text = `${this.userPrompt_}\n${text}`;
-    }
     const msg = await this.fetchMessage_(`persona-${name_}`, name_, text);
 
-    if (msg) {
-      const mention = this.getMention_(msg);
-      this.createMessage_(`persona-${name_}`, msg);
-      this.setNextSpeaker_();
-      if (mention) this.nextSpeaker = mention;
+    if (msg && this.getMentionValid_(name_)) {
+      this.postMessage_(name_,msg);
 
       if (this.responseMode_ === MODE.group) {
         delay(DELAY_MS).then(() => {
@@ -210,11 +213,7 @@ export class WritersRoom {
         });
       }
     } else {
-      this.removeMessage_(`persona-${name_}`);
-      await this.chat_.notify({
-        text: NOTIFICATIONS.error,
-      });
-      this.setModeState_();
+      this.errorHandler_(`persona-${name_}`);
     }
   }
 
@@ -224,10 +223,25 @@ export class WritersRoom {
     const match = str.match(regex);
 
     if (match) return match[0]
-      .replace('@', '')
+      // .replace(/\W/gi, '')
+      .replace(/[^a-z]+/gi, '')
       .toLowerCase();
 
-    return ;
+    return;
+  }
+
+  /** Confirms that given mention string is a valid Persona. */
+  private getMentionValid_(str: string):boolean {
+    const isValidMention = this.personaNames_
+      .findIndex(name => str.toLowerCase() === name.toLowerCase()) !== null;
+
+    if (!isValidMention) {
+      this.chat_.notify({
+        text: `"${str}}" ${NOTIFICATIONS.invalid}`,
+      });
+    }
+
+    return isValidMention;
   }
 
   /** Returns mode state; 'single' or 'group'. */
@@ -239,22 +253,39 @@ export class WritersRoom {
   }
 
   /** Creates pending message element. */
-  private async initMessage_(id?: string,
-    attr: IChatAttributes = {position: 'right'}) {
-  const elem = await this.chat_.pending(attr) ||
-    document.querySelector(`#${id}`);
-  if (id) elem.id = id;
-  elem.setAttribute('visible', 'true');
-  elem.setAttribute('position', attr?.position || 'right');
+  private async initMessage_(id: string,
+      attr: IChatAttributes = {position: 'right'}) {
+    const elem = await this.chat_.pending(attr) ||
+      document.querySelector(`#${id}`);
+    if (id) elem.id = id;
+    elem.toggleAttribute('visible', true);
+    elem.setAttribute('position', attr?.position || 'right');
 
-  return elem;
-}
+    return elem;
+  }
 
-/** Pauses conversation between speakers. */
+  /** Pauses conversation between speakers. */
   private async modeHandler_() {
     await this.chat_.notify({
       text: NOTIFICATIONS[this.getModeState_()],
     });
+  }
+
+  /** Posts message to chat container. */
+  private async postMessage_(name: string, msg: string) {
+    this.createMessage_(`persona-${name}`, msg);
+    // Push message into persona response array.
+    this.personaResponses_[name].push(msg);
+    // Pass messages to summary-block for summarization.
+    this.elemSummary_.src = Object.values(this.personaResponses_)
+      .flat(Infinity).join('\n');
+
+    this.setNextSpeaker_();
+
+    const mention = this.getMention_(msg);
+    if (mention && this.getMentionValid_(mention)) {
+      this.nextSpeaker = mention;
+    }
   }
 
   /** Removes message element. */
@@ -273,7 +304,8 @@ export class WritersRoom {
     const name = toTitleCase(this.nextSpeaker);
     const index = this.personaNames_.indexOf(name);
     this.nextSpeaker =
-      (this.personaNames_[(index + 1) % this.personaNames_?.length]).toLowerCase();
+      (this.personaNames_[(index + 1) % this.personaNames_?.length])
+        .toLowerCase();
 
     return this.nextSpeaker;
   }

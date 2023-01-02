@@ -3,7 +3,7 @@
  */
 
 import marked from './marked';
-import {delay, randomFlex} from './utils';
+import {delay, randomFlex} from '../../utils';
 import '../components/controller-chat-message';
 import '../components/controller-chat-notification';
 import '../components/controller-chat-pending';
@@ -18,7 +18,7 @@ export interface IChatAttributes {
 }
 
 /** Delay time between reveal of response. */
-const DELAY_MS = 1000;
+const DELAY_MS = 1 * 250;
 
 /** Scroll into view animation attribute.. */
 const SCROLL_VIEW_ATTR: ScrollIntoViewOptions = {

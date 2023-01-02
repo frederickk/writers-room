@@ -47,10 +47,20 @@ export class InputText extends LitElement {
         .value="${this.value}"
         ?disabled=${this.disabled}
         ?error=${this.error}
+        @blur="${this.inputHandler_}"
+        @click="${this.keydownHandler_}"
         @input="${this.inputHandler_}"
         @keydown="${this.keydownHandler_}"
         @keyup="${this.keyupHandler_}"/>
     `;
+  }
+
+  updated(changedProperties: Map<string, any>) {
+    if (changedProperties.get('value')) {
+      if (this.isEmpty_()) {
+        this.clickEnter_ = false;
+      }
+    }
   }
 
   /** Handles 'input' event and fires 'empty' event if value is null. */

@@ -7,7 +7,7 @@ declare global {
   var personaIndices: any;
 }
 
-const STATIC_DIR = './build/static';
+const STATIC_DIR = './static';
 
 const EXTENSION = '.webp';
 
@@ -26,7 +26,7 @@ const getFiles = async (extension: string) => {
   });
 };
 
-/** Returns randome index from given array. */
+/** Returns random index from given array. */
 const getRandomIndex = (arr: any[]): number => {
   // let index = return Math.ceil(Math.random() * arr.length);
   let index = Math.floor(Math.random() * arr.length);

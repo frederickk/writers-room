@@ -1,6 +1,6 @@
 @use 'controller-chat';
+@use '../scss/mixins';
 @import '../scss/_defs';
-@import '../scss/mixins';
 
 :host {
   @include controller-chat.error-mod();
@@ -8,7 +8,7 @@
   @include controller-chat.visible-mod();
 
   .chat-pending {
-    @include transition(opacity, visibility);
+    @include mixins.transition(opacity, visibility);
 
     display: none;
     gap: 0 5px;
@@ -22,7 +22,8 @@
       animation-duration: 750ms;
       animation-fill-mode: both;
       animation-iteration-count: infinite;
-      animation-name: bump;
+      animation-name: bounce;
+      // animation-name: echo;
       animation-play-state: running;
       animation-timing-function: ease-in-out;
       background-color: var(--grey-900);
@@ -46,7 +47,7 @@
   }
 }
 
-@keyframes bump {
+@keyframes bounce {
   0% {
     transform: translateY(0);
   }
@@ -58,5 +59,20 @@
   }
   100% {
     transform: translateY(10px);
+  }
+}
+
+@keyframes echo {
+  0% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 50%;
+  }
+  60% {
+    opacity: 100%;
+  }
+  100% {
+    opacity: 100%;
   }
 }

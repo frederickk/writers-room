@@ -1,11 +1,11 @@
+@use 'mixins';
 @import '_defs';
-@import 'mixins';
 
 [data-tooltip],
 .tooltip {
   --arrow-size: 5px;
 
-  @include transition(background-color, color, opacity, visibility);
+  @include mixins.transition(background-color, color, opacity, visibility);
 
   cursor: pointer;
   position: relative;

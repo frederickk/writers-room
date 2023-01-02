@@ -1,4 +1,26 @@
-// Mixins: Media Query
+// Media query prefers-color-scheme.
+@mixin dark-theme() {
+  @media (prefers-color-scheme: dark) {
+    @content;
+  }
+}
+
+// Defines passive type for labels and notifications.
+@mixin passive-type {
+  color: var(--grey-600);
+  font-size: var(--font-size--md);
+}
+
+// Defines pill shapes.
+@mixin pill($background-color) {
+  background-color: $background-color;
+  border-radius: 1em;
+  font-weight: normal;
+  padding: 0.05em 1ch;
+  white-space: nowrap;
+}
+
+// Media Query wrapper.
 @mixin mq($bp-size, $dimension: min-width, $orientation: 'none') {
   @if $orientation == 'none' {
     @media only screen and ($dimension: $bp-size) {
@@ -11,21 +33,21 @@
   }
 }
 
-// Media query min-width mixin
+// Media query min-width mixin.
 @mixin mq-min($bp-size, $dimension: min-width, $orientation: 'none') {
   @include mq($bp-size, $dimension, $orientation) {
     @content;
   }
 }
 
-// Media query max-width/height mixin
+// Media query max-width/height mixin.
 @mixin mq-max($bp-size, $dimension: max-width, $orientation: 'none') {
   @include mq($bp-size, $dimension, $orientation) {
     @content;
   }
 }
 
-// Media query min-width and max-width mixin
+// Media query min-width and max-width mixin.
 @mixin mq-min-max($bp-min-size, $bp-max-size, $orientation: 'none') {
   @if $orientation == 'none' {
     @media all and (min-width: $bp-min-size) and (max-width: $bp-max-size) {
@@ -38,14 +60,7 @@
   }
 }
 
-// Media query prefers-color-scheme
-@mixin dark-theme() {
-  @media (prefers-color-scheme: dark) {
-    @content;
-  }
-}
-
-// Transition
+// Transition.
 @mixin transition($props...) {
   $props-list: ();
   @for $i from 1 through length($props) {

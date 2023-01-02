@@ -1,5 +1,4 @@
-{% extends 'src/client/templates/base.njk' %}
-{% import 'src/client/templates/chat-macros.njk' as chat %}
+{% extends 'templates/base.njk' %}
 
 {% set title = "Writers\' Room" %}
 {% set body_class = 'chat-container' %}
@@ -30,20 +29,20 @@
         <span slot="on"><span class="material-symbols-outlined">groups</span></span>
       </toggle-switch>
 
+      <!-- SUMMARY -->
+      <button-debounce id="summarize" class="header-debug tooltip--bottom" data-tooltip="Summary panel" onclick="document.querySelector('#summary').toggleAttribute('open');">
+        <span class="material-symbols-outlined">list</span>
+      </button-debounce>
+
       <!-- DEBUG -->
       <button-debounce class="header-debug tooltip--bottom" data-tooltip="Debug panel" onclick="document.querySelector('#debug').classList.toggle('debug--open');">
         <span class="material-symbols-outlined">bug_report</span>
       </button-debounce>
-      <div id="debug" class="debug">
-        {% for name in ['janet', 'marge', 'rita'] %}
-          <div class="debug-input">
-            <input-text id="prompt-{{ name }}" class="debug-input__input"></input-text>
-            <button-debounce id="ask-{{ name }}" class="debug-input__action">{{ name | title }}</button-debounce>
-          </div>
-        {% endfor %}
-      </div>
+      <div id="debug" class="debug"></div>
     </div>
   </header>
+
+  <summary-block id="summary"></summary-block>
 
   <footer>
     <input-text id="prompt"></input-text>

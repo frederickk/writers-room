@@ -25,7 +25,7 @@ export class ToggleSwitch extends LitElement {
 
   render() {
     return html `
-      <slot name="off">off</slot>
+      <slot name="off" @click="${this.uncheckHandler_}">off</slot>
       <label>
         <input
           type="checkbox"
@@ -34,7 +34,7 @@ export class ToggleSwitch extends LitElement {
           @click="${this.clickHandler_}">
         <span class="slider slider--round"></span>
       </label>
-      <slot name="on">on</slot>
+      <slot name="on" @click="${this.checkHandler_}">on</slot>
       `;
   }
 
@@ -45,6 +45,12 @@ export class ToggleSwitch extends LitElement {
 
   set checked(value: boolean) {
     this.switched = value;
+  }
+
+  /** Handles checking of toggle via "on" slot. */
+  checkHandler_() {
+    this.input_.checked = true;
+    this.clickHandler_();
   }
 
   /** Handles 'click' events and fires 'toggle-on' or 'toggle-off' event. */
@@ -63,5 +69,12 @@ export class ToggleSwitch extends LitElement {
     }
     this.dispatchEvent(event);
   }
+
+  /** Handles unchecking of toggle via "off" slot. */
+  uncheckHandler_() {
+    this.input_.checked = false;
+    this.clickHandler_();
+  }
+
 }
 

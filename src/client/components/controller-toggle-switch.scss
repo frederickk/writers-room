@@ -9,6 +9,16 @@
   justify-content: space-between;
   gap: var(--gap);
 
+  ::slotted(*) {
+    align-items: center;
+    background-color: var(--white);
+    border-radius: 36px;
+    display: flex;
+    padding: 0 1ch;
+    max-height: 36px;
+    min-height: 36px;
+  }
+
   label {
     position: relative;
     display: inline-block;

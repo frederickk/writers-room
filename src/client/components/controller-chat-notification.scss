@@ -1,6 +1,6 @@
 @use 'controller-chat';
+@use '../scss/mixins';
 @import '../scss/_defs';
-@import '../scss/mixins';
 
 :host {
   @include controller-chat.error-mod();
@@ -9,12 +9,11 @@
   @include controller-chat.mention-elem();
 
   .chat-notification {
-    @include transition(opacity, visibility);
+    @include mixins.passive-type;
+    @include mixins.transition(opacity, visibility);
 
     align-items: center;
-    color: var(--grey-700);
     display: flex;
-    font-size: var(--font-size--md);
     justify-content: space-around;
     margin: var(--spacing--top-bottom) 0;
     opacity: 0;

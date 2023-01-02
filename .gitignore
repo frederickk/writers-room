@@ -18,10 +18,10 @@ node_modules/
 # Misc. #
 ###################
 .vscode/
-# *.pxd
-# *.sketch
-# *.mp4
-# *.mov
+*.pxd
+*.sketch
+*.mp4
+*.mov
 
 # Configs #
 ###################

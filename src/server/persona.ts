@@ -42,7 +42,7 @@ export class Persona {
     if (color) this.color = color;
 
     await oraPromise(this.config_.train(), {
-      text: `🎭 Learning the role (${this.config_.rules.length} rules, ${this.config_.parse.length} parsers)`,
+      text: `🎭 Learning (${this.config_.rules.length} rules, ${this.config_.parsers.length} parsers)`,
     });
   }
 
@@ -58,6 +58,8 @@ export class Persona {
       }));
     reply.images = [];
 
-    return this.config_.parse(reply);
+    const parsedReply = this.config_.parse(reply);
+
+    return parsedReply;
   }
 }

@@ -40,6 +40,9 @@ export class WritersRoom {
   /** Array of persona names. */
   private personaNames_: string[];
 
+  /** User prompt for pre-pending AI messages. */
+  private userPrompt_: string = '';
+
   /** Number of response sent. */
   public messageCount = 0;
 
@@ -154,6 +157,7 @@ export class WritersRoom {
   private async fetchMessage_(id?: string, name?: string, text?: string):
       Promise<string | null> {
     const text_ = text || this.elemsInput_.user.value;
+    this.userPrompt_ = text_;
     const name_ = name?.toLowerCase() || this.nextSpeaker.toLowerCase();
     const color = await colorResponseHandler(name_)
       .then((res) => res.text());
@@ -188,6 +192,10 @@ export class WritersRoom {
   /** Fetches response from next speaker. */
   private async fetchResponseNextSpeaker_(name: string, text: string) {
     const name_ = this.getMention_(text) || name;
+    // Prepend original user input to prompt.
+    if (!text.includes(this.userPrompt_)) {
+      text = `${this.userPrompt_}\n${text}`;
+    }
     const msg = await this.fetchMessage_(`persona-${name_}`, name_, text);
 
     if (msg) {

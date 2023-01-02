@@ -28,8 +28,8 @@ renderer.heading = (text: any, level: any) => {
 };
 
 // Override <img> tags.
-renderer.image = (href: any, title: any, text: any) => {
-  return `<img src="${href}" class="${CLASSNAME}img" title="${title}" alt="${text}" />`;
+renderer.image = (href: any, _title: any, text: any) => {
+  return `<img src="${href}" class="${CLASSNAME}img" title="${text}" alt="${text}" />`;
 };
 
 // Override <a> tags.

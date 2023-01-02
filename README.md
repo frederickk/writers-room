@@ -7,16 +7,21 @@ v0.1.3
 ---
 ### Overview
 
-![Writers' Room screenplay example](./assets/writers-room_screenplay.gif)
+[![Writers' Room screenplay demo](./assets/writers-room_screenplay.gif)](https://youtu.be/eHj0Ar3BBwo)
 
-[View Screenplay Example](./assets/writers-room_screenplay.mp4)
+[Watch the demo](https://youtu.be/eHj0Ar3BBwo)
 
-Writers' Room is an experiment with [ChatGPT](https://chat.openai.com/) that enables multiple chat instances to communicate with you and themselves. Each instance is imbued with personality traits and a specific role, which allows for infinite or focused collabration. Below are the different rules that govern the "room" as a whole and each "personality" of the different instances.
+Writers' Room is an experiment with [ChatGPT](https://chat.openai.com/) that enables multiple AI bot instances to communicate with you and themselves. Each instance is imbued with personality traits and a specific contribution role, which allows for infinite or focused collaboration.
 
-**Single** mode will result in each bot responding to a prompt once. Whereas **Group** mode will prompt each persona infintely, iteratively building on the ideas posed by you and the other personas.
+**Single** mode will result in each bot responding to a prompt once. Whereas **Group** mode will prompt each persona infinitely, iteratively building on the ideas posed by you and the other personas.
 
 Messages can also be directed at specific personas via **Mentions** (e.g. @janet), only the 3 pre-defined personas can be mentioned, invalid mentions are simply ignored.
 
+![Writers' Room](./assets/writers-room_empty.png)
+
+![Writers' Room mentions](./assets/writers-room_mentions.png)
+
+![Writers' Room about](./assets/writers-room_about.png)
 
 ---
 ### Getting Started

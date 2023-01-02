@@ -23,7 +23,7 @@ const findRegexMatches_ = async (regex: RegExp, str: string,
       arr.push(replaceStr);
 
       // replace entire found string with ''
-      str = str.replace(match.replace(regex, '$&'), '');
+      str = str.replace(match.replace(regex, '$&'), replaceStr);
     }
   }
 
@@ -69,7 +69,8 @@ export const descriptionToImage = async (reply: IChatResponseParse) => {
     );
     const json: any = await response.json();
     if (json?.images) {
-      return `![${str}](https://image.lexica.art/md/${json?.images[0]?.id})`;
+      const index = Math.floor(Math.random() * (json.images.length / 2)) % json.images.length;
+      return `![${str}](https://image.lexica.art/md/${json?.images[index]?.id})`;
     }
 
     console.log('json', json);

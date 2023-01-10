@@ -63,7 +63,7 @@
     "@types/node-fetch": "^2.6.2",
     "@types/nunjucks": "^3.2.1",
     "body-parser": "^1.20.1",
-    "chatgpt": "^3.3.3",
+    "chatgpt": "^3.3.12",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "dotenv-safe": "^8.2.0",
